@@ -3,6 +3,7 @@ package com.example.weizheng.swsg;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
      * HTTP request variables
      */
     private static final String httpTAG = "HTTP";
-    private String url = "192.168.137.1/server/menus/0000";
+    //private String url = "http://192.168.137.164/server/menus/0000";
+    private String url = "https://api.myjson.com/bins/ckaat";
     private RequestQueue mRequestQueue;
     private StringRequest mStringRequest;
 
@@ -70,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
 
     public void startScan(View view) {
-        setContentView(scannerView);
+        sendRequest("hello");
+        //setContentView(scannerView);
     }
 
     /**
@@ -112,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             @Override
             public void onResponse(String response) {
                 Log.i(httpTAG, "Response: " + response.toString());
+                Intent i = new Intent(MainActivity.this, Parser.class);
+                i.putExtra("jsonStrings", response);
+                startActivity(i);
             }
         }, new Response.ErrorListener() {
             @Override
